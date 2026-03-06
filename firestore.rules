@@ -1,0 +1,158 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return isSignedIn() && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
+    }
+    
+    // Helper function to check if user owns the document
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      // Anyone can read user profiles (for team lists, assignee dropdowns, etc.)
+      allow read: if isSignedIn();
+      
+      // Users can create their own profile on signup
+      allow create: if isSignedIn() && isOwner(userId);
+      
+      // Users can update their own profile, admins can update any profile
+      allow update: if isOwner(userId) || isAdmin();
+      
+      // Only admins can delete users
+      allow delete: if isAdmin();
+    }
+    
+    // Properties collection (nested under users for creation, but queryable globally via collectionGroup)
+    match /users/{userId}/properties/{propertyId} {
+      // All authenticated users can read any property (via collectionGroup query)
+      allow read: if isSignedIn();
+      
+      // Users can create properties under their own user document
+      allow create: if isSignedIn() && isOwner(userId);
+      
+      // Only the owner or admins can update/delete properties
+      allow update, delete: if isOwner(userId) || isAdmin();
+      
+      // Rooms subcollection under properties
+      match /rooms/{roomId} {
+        // All authenticated users can read rooms
+        allow read: if isSignedIn();
+        
+        // All authenticated users can update room status (for maintenance updates)
+        allow update: if isSignedIn();
+        
+        // Only the property owner or admins can create or delete rooms
+        allow create, delete: if isOwner(userId) || isAdmin();
+      }
+    }
+    
+    // Legacy global properties collection (keep for backwards compatibility)
+    match /properties/{propertyId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+    
+    // Legacy global rooms collection
+    match /rooms/{roomId} {
+      allow read: if isSignedIn();
+      allow update: if isSignedIn();
+      allow create, delete: if isAdmin();
+    }
+    
+    // Tasks collection
+    // Tasks collection
+    match /tasks/{taskId} {
+      // All authenticated users can read tasks
+      allow read: if isSignedIn();
+      
+      // All authenticated users can create tasks (report issues)
+      allow create: if isSignedIn();
+      
+      // Users can update tasks assigned to them or if they created them
+      // Admins can update any task
+      allow update: if isSignedIn() && (
+        resource.data.assignedTo == request.auth.uid ||
+        resource.data.reportedBy == request.auth.uid ||
+        isAdmin()
+      );
+      
+      // Only admins can delete tasks
+      allow delete: if isAdmin();
+    }
+    
+    // Inventory collection
+    match /inventory/{itemId} {
+      // All authenticated users can read inventory
+      allow read: if isSignedIn();
+      
+      // All authenticated users can update inventory (stock levels, usage)
+      allow update: if isSignedIn();
+      
+      // Only admins can create or delete inventory items
+      allow create, delete: if isAdmin();
+    }
+    
+    // Approval Requests collection
+    match /approvalRequests/{requestId} {
+      // All authenticated users can read approval requests
+      allow read: if isSignedIn();
+      
+      // All authenticated users can create approval requests
+      allow create: if isSignedIn();
+      
+      // Only admins can update approval requests (approve/reject)
+      allow update: if isAdmin();
+      
+      // Only admins can delete approval requests
+      allow delete: if isAdmin();
+    }
+    
+    // Schematics collection
+    match /schematics/{schematicId} {
+      // All authenticated users can read schematics
+      allow read: if isSignedIn();
+      
+      // All authenticated users can upload schematics
+      allow create: if isSignedIn();
+      
+      // Only admins or the uploader can update their schematics
+      allow update: if isSignedIn() && (
+        resource.data.uploadedBy == request.auth.uid ||
+        isAdmin()
+      );
+      
+      // Only admins or the uploader can delete their schematics
+      allow delete: if isSignedIn() && (
+        resource.data.uploadedBy == request.auth.uid ||
+        isAdmin()
+      );
+    }
+    
+    // Notifications collection (if you add it later)
+    match /notifications/{notificationId} {
+      // Users can only read their own notifications
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      
+      // System can create notifications for users
+      allow create: if isSignedIn();
+      
+      // Users can update their own notifications (mark as read)
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid;
+      
+      // Users can delete their own notifications
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+  }
+}

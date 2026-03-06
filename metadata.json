@@ -1,0 +1,8 @@
+{
+  "name": "Maintech",
+  "description": "Next-gen hotel operations and maintenance platform featuring AI-assisted troubleshooting.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
