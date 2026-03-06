@@ -199,12 +199,12 @@ const Card: React.FC<CardProps> = ({ item, isTop, onApprove, onReject }) => {
       )}
 
       <div className="mt-auto flex gap-4 w-full">
-         <div className="flex-1 py-3 rounded-xl border-2 border-red-100 text-red-500 font-bold flex items-center justify-center">
+         <button onClick={(e) => { e.stopPropagation(); onReject(); }} className="flex-1 py-3 rounded-xl border-2 border-red-100 text-red-500 font-bold flex items-center justify-center hover:bg-red-50 transition-colors">
            Reject
-         </div>
-         <div className="flex-1 py-3 rounded-xl bg-[#87b21e] text-white font-bold flex items-center justify-center shadow-lg shadow-[#87b21e]/30">
+         </button>
+         <button onClick={(e) => { e.stopPropagation(); onApprove(); }} className="flex-1 py-3 rounded-xl bg-[#87b21e] text-white font-bold flex items-center justify-center shadow-lg shadow-[#87b21e]/30 hover:bg-[#769c1a] transition-colors">
            Approve
-         </div>
+         </button>
       </div>
     </motion.div>
   );

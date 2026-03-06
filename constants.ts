@@ -14,43 +14,69 @@ export const COLORS = {
 };
 
 export const PM_CHECKLIST_TEMPLATE: PMItem[] = [
-  // Entry
-  { id: 'pm_e1', category: 'Entry', task: 'Door and frame condition check', isChecked: false },
-  { id: 'pm_e2', category: 'Entry', task: 'Silencers, smoke seals, & sweeps', isChecked: false },
-  { id: 'pm_e3', category: 'Entry', task: 'Closer operation (latches at 8" & 30")', isChecked: false },
-  { id: 'pm_e4', category: 'Entry', task: 'Lock/Deadbolt/Keycard operation', isChecked: false },
-  { id: 'pm_e5', category: 'Entry', task: 'Viewer/Peephole condition', isChecked: false },
-  
+  // Entry Door
+  { id: 'pm_ed1', category: 'Entry Door', task: 'Door and door frame', isChecked: false },
+  { id: 'pm_ed2', category: 'Entry Door', task: 'Frame silencers, smoke seal, intumescent fire strips, door sweeps and doorstop (ensure they are in place)', isChecked: false },
+  { id: 'pm_ed3', category: 'Entry Door', task: 'Closure and closer operation (back swing, swing, and latch operation – adjust as needed; ensure door automatically latches closed at 8" and 30" opening position)', isChecked: false },
+  { id: 'pm_ed4', category: 'Entry Door', task: 'Deadbolt/night-latch', isChecked: false },
+  { id: 'pm_ed5', category: 'Entry Door', task: 'Knob, strike plate and hinges', isChecked: false },
+  { id: 'pm_ed6', category: 'Entry Door', task: 'Lock (condition, operation, battery strength, Bluetooth operation, Digital Key Health)', isChecked: false },
+  { id: 'pm_ed7', category: 'Entry Door', task: 'Room number', isChecked: false },
+  { id: 'pm_ed8', category: 'Entry Door', task: 'Evacuation/Innkeeper plaque', isChecked: false },
+  { id: 'pm_ed9', category: 'Entry Door', task: 'Viewer/cover', isChecked: false },
+
+  // Entry Threshold
+  { id: 'pm_et1', category: 'Entry Threshold', task: 'Floor tile/carpet', isChecked: false },
+  { id: 'pm_et2', category: 'Entry Threshold', task: 'Baseboard', isChecked: false },
+  { id: 'pm_et3', category: 'Entry Threshold', task: 'Wall finish', isChecked: false },
+  { id: 'pm_et4', category: 'Entry Threshold', task: 'Ceiling finish', isChecked: false },
+
   // Closet
   { id: 'pm_c1', category: 'Closet', task: 'Door tracks, guides & bumpers', isChecked: false },
-  { id: 'pm_c2', category: 'Closet', task: 'Hangers, Rods & Shelves', isChecked: false },
-  { id: 'pm_c3', category: 'Closet', task: 'Safe battery & locking mechanism', isChecked: false },
+  { id: 'pm_c2', category: 'Closet', task: 'Hangers, rods & shelves', isChecked: false },
+  { id: 'pm_c3', category: 'Closet', task: 'Safe – battery strength & locking mechanism', isChecked: false },
   { id: 'pm_c4', category: 'Closet', task: 'Luggage rack stability', isChecked: false },
+  { id: 'pm_c5', category: 'Closet', task: 'Iron & ironing board condition', isChecked: false },
 
   // Bathroom
   { id: 'pm_b1', category: 'Bathroom', task: 'Exhaust fan (clean & operational)', isChecked: false },
-  { id: 'pm_b2', category: 'Bathroom', task: 'GFCI outlets (test reset)', isChecked: false },
-  { id: 'pm_b3', category: 'Bathroom', task: 'Sink/Shower Water Temp (122°F max)', isChecked: false },
+  { id: 'pm_b2', category: 'Bathroom', task: 'GFCI outlets (test reset button)', isChecked: false },
+  { id: 'pm_b3', category: 'Bathroom', task: 'Sink/shower water temperature (122°F max)', isChecked: false },
   { id: 'pm_b4', category: 'Bathroom', task: 'Toilet flush & tank components', isChecked: false },
-  { id: 'pm_b5', category: 'Bathroom', task: 'Caulking & Grout (Tub/Sink)', isChecked: false },
+  { id: 'pm_b5', category: 'Bathroom', task: 'Caulking & grout condition (tub/sink)', isChecked: false },
   { id: 'pm_b6', category: 'Bathroom', task: 'Drain flow & stoppers', isChecked: false },
+  { id: 'pm_b7', category: 'Bathroom', task: 'Towel bars, hooks & toilet paper holder', isChecked: false },
+  { id: 'pm_b8', category: 'Bathroom', task: 'Mirror condition', isChecked: false },
+  { id: 'pm_b9', category: 'Bathroom', task: 'Shower curtain rod, rings & curtain/door', isChecked: false },
 
-  // Bedroom / Living
-  { id: 'pm_br1', category: 'Bedroom', task: 'Lights, Switches & USB ports', isChecked: false },
-  { id: 'pm_br2', category: 'Bedroom', task: 'Window drapes & blackout tracks', isChecked: false },
-  { id: 'pm_br3', category: 'Bedroom', task: 'Furniture stability (legs/drawers)', isChecked: false },
-  { id: 'pm_br4', category: 'Bedroom', task: 'TV & Remote functionality', isChecked: false },
-  
+  // Bedroom / Living Area
+  { id: 'pm_br1', category: 'Bedroom / Living Area', task: 'All lighting, switches & USB/outlet functionality', isChecked: false },
+  { id: 'pm_br2', category: 'Bedroom / Living Area', task: 'Window drapes & blackout curtain tracks', isChecked: false },
+  { id: 'pm_br3', category: 'Bedroom / Living Area', task: 'Furniture stability (legs, drawers, handles)', isChecked: false },
+  { id: 'pm_br4', category: 'Bedroom / Living Area', task: 'TV & remote functionality', isChecked: false },
+  { id: 'pm_br5', category: 'Bedroom / Living Area', task: 'Telephone operation', isChecked: false },
+  { id: 'pm_br6', category: 'Bedroom / Living Area', task: 'Floor tile/carpet condition', isChecked: false },
+  { id: 'pm_br7', category: 'Bedroom / Living Area', task: 'Baseboards, wall finish & ceiling condition', isChecked: false },
+  { id: 'pm_br8', category: 'Bedroom / Living Area', task: 'Artwork/mirrors – secure & condition', isChecked: false },
+
+  // Windows & Balcony Door
+  { id: 'pm_w1', category: 'Windows & Balcony Door', task: 'Window operation, latches & seals', isChecked: false },
+  { id: 'pm_w2', category: 'Windows & Balcony Door', task: 'Sliding/balcony door operation & lock', isChecked: false },
+  { id: 'pm_w3', category: 'Windows & Balcony Door', task: 'Screen condition (if applicable)', isChecked: false },
+  { id: 'pm_w4', category: 'Windows & Balcony Door', task: 'Balcony railing stability (if applicable)', isChecked: false },
+
   // HVAC
-  { id: 'pm_h1', category: 'HVAC', task: 'Thermostat Heat/Cool response', isChecked: false },
-  { id: 'pm_h2', category: 'HVAC', task: 'Filter condition (Replace if dirty)', isChecked: false },
-  { id: 'pm_h3', category: 'HVAC', task: 'Vent/Grille cleanliness', isChecked: false },
+  { id: 'pm_h1', category: 'HVAC', task: 'Thermostat heat/cool response', isChecked: false },
+  { id: 'pm_h2', category: 'HVAC', task: 'Filter condition (replace if dirty)', isChecked: false },
+  { id: 'pm_h3', category: 'HVAC', task: 'Vent/grille cleanliness', isChecked: false },
   { id: 'pm_h4', category: 'HVAC', task: 'Condensation drain pan check', isChecked: false },
+  { id: 'pm_h5', category: 'HVAC', task: 'Fan coil/PTU unit operation (all speeds)', isChecked: false },
 
   // Fire & Safety
-  { id: 'pm_fs1', category: 'Fire & Safety', task: 'Smoke detector test', isChecked: false },
-  { id: 'pm_fs2', category: 'Fire & Safety', task: 'Sprinkler head condition', isChecked: false },
-  { id: 'pm_fs3', category: 'Fire & Safety', task: 'Evacuation map present on door', isChecked: false },
+  { id: 'pm_fs1', category: 'Fire & Safety', task: 'Smoke detector test & battery check', isChecked: false },
+  { id: 'pm_fs2', category: 'Fire & Safety', task: 'Sprinkler head condition (unobstructed)', isChecked: false },
+  { id: 'pm_fs3', category: 'Fire & Safety', task: 'Evacuation map present & legible on door', isChecked: false },
+  { id: 'pm_fs4', category: 'Fire & Safety', task: 'Fire pull station / annunciator panel check', isChecked: false },
 ];
 
 export const MOCK_USER: User = {
