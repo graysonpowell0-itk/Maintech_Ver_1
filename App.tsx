@@ -419,6 +419,7 @@ const AppContent: React.FC = () => {
         {isProfileModalOpen && userProfile && (
             <ProfileModal 
                 user={userProfile}
+                properties={properties}
                 onClose={() => setIsProfileModalOpen(false)}
                 onSave={async (data) => {
                   // Update local userProfile state immediately

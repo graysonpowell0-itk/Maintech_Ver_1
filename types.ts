@@ -74,6 +74,7 @@ export interface User {
   avatarUrl: string;
   status: 'online' | 'busy' | 'offline';
   accountStatus: 'pending' | 'active' | 'rejected';
+  propertyId?: string;
 }
 
 export interface AIFixSuggestion {

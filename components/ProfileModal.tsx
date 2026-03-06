@@ -1,17 +1,19 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { X, Camera, Save, User as UserIcon } from 'lucide-react';
-import { User } from '../types';
+import { X, Camera, Save, User as UserIcon, Building2 } from 'lucide-react';
+import { User, Property } from '../types';
 
 interface ProfileModalProps {
   user: User;
+  properties: Property[];
   onClose: () => void;
   onSave: (updatedUser: Partial<User>) => Promise<void>;
 }
 
-const ProfileModal: React.FC<ProfileModalProps> = ({ user, onClose, onSave }) => {
+const ProfileModal: React.FC<ProfileModalProps> = ({ user, properties, onClose, onSave }) => {
   const [name, setName] = useState(user.name);
   const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
+  const [propertyId, setPropertyId] = useState(user.propertyId ?? '');
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -29,7 +31,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ user, onClose, onSave }) =>
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    await onSave({ name, avatarUrl });
+    await onSave({ name, avatarUrl, propertyId: propertyId || undefined });
     setIsLoading(false);
     onClose();
   };
@@ -79,6 +81,17 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ user, onClose, onSave }) =>
             </button>
           </div>
 
+          <div className="grid grid-cols-2 gap-3 w-full text-center">
+            <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Role</p>
+              <p className="text-sm font-bold text-[#2a313d]">{user.role}</p>
+            </div>
+            <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Email</p>
+              <p className="text-sm font-bold text-[#2a313d] truncate">{user.email}</p>
+            </div>
+          </div>
+
           <div>
             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
             <input 
@@ -88,6 +101,20 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ user, onClose, onSave }) =>
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-gray-500 uppercase mb-1 flex items-center gap-1"><Building2 size={12} /> Property</label>
+            <select
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#1d98d2] outline-none transition-all bg-white text-[#2a313d] font-medium"
+              value={propertyId}
+              onChange={(e) => setPropertyId(e.target.value)}
+            >
+              <option value="">— Not assigned —</option>
+              {properties.map(p => (
+                <option key={p.id} value={p.id}>{p.name}</option>
+              ))}
+            </select>
           </div>
 
           <div className="pt-2 flex gap-3">
