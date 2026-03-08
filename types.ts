@@ -94,6 +94,13 @@ export interface PMItem {
   isChecked: boolean;
 }
 
+export interface PMLogEntry {
+  completedBy: string;
+  completedAt: string;
+  itemsCompleted: number;
+  totalItems: number;
+}
+
 export interface Room {
   id: string;
   number: string;
@@ -107,6 +114,9 @@ export interface Room {
   pmChecklist: PMItem[];
   propertyId?: string;
   checkoutDate?: string;
+  pmCompletedBy?: string;
+  pmCompletedAt?: string;
+  pmHistory?: PMLogEntry[];
 }
 
 export interface ApprovalRequest {

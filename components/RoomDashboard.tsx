@@ -13,9 +13,10 @@ interface RoomDashboardProps {
     onUpdateRoom: (room: Room) => void;
     bulkUpdateRooms: (rooms: Room[]) => Promise<void>;
     onSelectTask: (task: Task) => void;
+    currentUserName: string;
 }
 
-const RoomDashboard: React.FC<RoomDashboardProps> = ({ rooms, tasks, onUpdateRoom, bulkUpdateRooms, onSelectTask }) => {
+const RoomDashboard: React.FC<RoomDashboardProps> = ({ rooms, tasks, onUpdateRoom, bulkUpdateRooms, onSelectTask, currentUserName }) => {
   const [filter, setFilter] = useState<'All' | 'Clean' | 'Dirty' | 'Occupied' | 'Vacant' | 'Pending Departure'>('All');
   const [selectedFloor, setSelectedFloor] = useState<number | 'All'>('All');
   const [selectedRoomForPM, setSelectedRoomForPM] = useState<Room | null>(null);
@@ -457,6 +458,7 @@ const RoomDashboard: React.FC<RoomDashboardProps> = ({ rooms, tasks, onUpdateRoo
         {selectedRoomForPM && (
           <PMChecklistModal 
             room={selectedRoomForPM}
+            currentUserName={currentUserName}
             onClose={() => setSelectedRoomForPM(null)}
             onSave={onUpdateRoom}
           />

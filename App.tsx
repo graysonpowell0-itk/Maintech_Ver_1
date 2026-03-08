@@ -289,7 +289,8 @@ const AppContent: React.FC = () => {
             tasks={tasks} 
             onUpdateRoom={updateRoom} 
             bulkUpdateRooms={bulkUpdateRooms}
-            onSelectTask={handleTaskSelect} 
+            onSelectTask={handleTaskSelect}
+            currentUserName={userProfile?.name || user?.displayName || 'Unknown'}
           />
         );
       

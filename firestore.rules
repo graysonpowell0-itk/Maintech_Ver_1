@@ -14,6 +14,13 @@ service cloud.firestore {
              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
     }
     
+    // Helper function to check if user is manager or admin
+    function isManagerOrAdmin() {
+      return isSignedIn() && 
+             (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin' ||
+              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Manager');
+    }
+    
     // Helper function to check if user owns the document
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
@@ -27,8 +34,8 @@ service cloud.firestore {
       // Users can create their own profile on signup
       allow create: if isSignedIn() && isOwner(userId);
       
-      // Users can update their own profile, admins can update any profile
-      allow update: if isOwner(userId) || isAdmin();
+      // Users can update their own profile, managers and admins can update any profile (for approvals)
+      allow update: if isOwner(userId) || isManagerOrAdmin();
       
       // Only admins can delete users
       allow delete: if isAdmin();

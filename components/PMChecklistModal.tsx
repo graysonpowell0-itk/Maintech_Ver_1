@@ -1,16 +1,17 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, CheckCircle, Circle, ClipboardCheck, Save } from 'lucide-react';
-import { Room, PMItem } from '../types';
+import { X, CheckCircle, Circle, ClipboardCheck, Save, User } from 'lucide-react';
+import { Room, PMItem, PMLogEntry } from '../types';
 
 interface PMChecklistModalProps {
   room: Room;
+  currentUserName: string;
   onClose: () => void;
   onSave: (updatedRoom: Room) => void;
 }
 
-const PMChecklistModal: React.FC<PMChecklistModalProps> = ({ room, onClose, onSave }) => {
+const PMChecklistModal: React.FC<PMChecklistModalProps> = ({ room, currentUserName, onClose, onSave }) => {
   const [items, setItems] = useState<PMItem[]>(JSON.parse(JSON.stringify(room.pmChecklist)));
 
   const categories = Array.from(new Set(items.map(item => item.category)));
@@ -29,11 +30,28 @@ const PMChecklistModal: React.FC<PMChecklistModalProps> = ({ room, onClose, onSa
     if (checked === total) status = 'Completed';
     else if (checked > 0) status = 'In Progress';
 
-    onSave({
+    // Create log entry when PM is completed
+    const now = new Date().toISOString();
+    const logEntry: PMLogEntry = {
+      completedBy: currentUserName,
+      completedAt: now,
+      itemsCompleted: checked,
+      totalItems: total
+    };
+
+    // Build updated room with PM tracking
+    const updatedRoom: Room = {
       ...room,
       pmChecklist: items,
-      pmStatus: status
-    });
+      pmStatus: status,
+      ...(status === 'Completed' ? {
+        pmCompletedBy: currentUserName,
+        pmCompletedAt: now,
+        pmHistory: [...(room.pmHistory || []), logEntry]
+      } : {})
+    };
+
+    onSave(updatedRoom);
     onClose();
   };
 
@@ -65,6 +83,9 @@ const PMChecklistModal: React.FC<PMChecklistModalProps> = ({ room, onClose, onSa
                 ></div>
               </div>
               <span className="text-xs font-bold text-gray-500">{getProgress()}% Complete</span>
+            </div>
+            <div className="flex items-center gap-1 mt-1 text-xs text-gray-400">
+              <User size={12} /> Technician: <span className="font-medium text-[#2a313d]">{currentUserName}</span>
             </div>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-200 rounded-full transition-colors">
